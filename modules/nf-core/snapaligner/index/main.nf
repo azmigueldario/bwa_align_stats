@@ -11,8 +11,8 @@ process SNAPALIGNER_INDEX {
     tuple val(meta), path(fasta), path(altcontigfile), path(nonaltcontigfile), path(altliftoverfile)
 
     output:
-    tuple val(meta), path("snap/*") ,emit: index
-    path "versions.yml"             ,emit: versions
+    tuple val(meta), path("snap/*"), emit: index
+    path "versions.yml"            , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -37,8 +37,9 @@ process SNAPALIGNER_INDEX {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        snapaligner: \$(snap-aligner 2>&1| head -n 1 | sed 's/^.*version //')
+        snapaligner: "\$(snap-aligner 2>&1 | head -n 1 | sed 's/^.*version //')"
     END_VERSIONS
+
     """
     stub:
     """
@@ -50,7 +51,7 @@ process SNAPALIGNER_INDEX {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        snapaligner: \$(snap-aligner 2>&1| head -n 1 | sed 's/^.*version //;s/\.\$//')
+        snapaligner: "\$(snap-aligner 2>&1 | head -n 1 | sed 's/^.*version //')"
     END_VERSIONS
     """
 }

@@ -26,7 +26,9 @@ workflow BWA_ALIGN_STATS {
 
     ch_versions = Channel.empty()
 
-    // Create index for reference genome
+    // 
+    // Create index for reference genome, empty liftover channel
+    //
 
     ch_refgenome
         .map {meta, fasta -> [meta, ""]}
@@ -40,12 +42,6 @@ workflow BWA_ALIGN_STATS {
     ch_versions = ch_versions.mix(FASTA_INDEX_DNA.out.versions)
 
     // Align reads to reference genome
-
-
-
-    FASTA_INDEX_DNA.out.index.view()
-    ch_refgenome.view()
-    println "$params.aligner"
 
     FASTQ_ALIGN_DNA(
         ch_samplesheet,

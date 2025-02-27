@@ -13,9 +13,10 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { BWA_ALIGN_STATS  } from './workflows/bwa_align_stats'
+include { BWA_ALIGN_STATS         } from './workflows/bwa_align_stats'
 include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_bwa_align_stats_pipeline'
 include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_bwa_align_stats_pipeline'
+
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     NAMED WORKFLOWS FOR PIPELINE
@@ -75,7 +76,7 @@ workflow {
     //
     PIPELINE_COMPLETION (
         params.outdir,
-        params.monochrome_logs,
+        params.monochrome_logs
     )
 }
 

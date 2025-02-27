@@ -86,11 +86,12 @@ workflow PIPELINE_INITIALISATION {
     // Create channel for reference genome
     //
 
-    Channel.fromPath(params.ref_genome, checkIfExists: true)
+    Channel
+        .fromPath(params.ref_genome, checkIfExists: true)
         .map { 
             fasta ->
-            def fmeta = [id: fasta.simpleName]
-            [fmeta, fasta]  }
+                def fmeta = [id: fasta.simpleName]
+                [fmeta, fasta]  }
         .first()
         .set{ ch_refgenome }
 

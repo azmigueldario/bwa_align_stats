@@ -68,8 +68,6 @@ workflow FASTA_INDEX_DNA {
             error "Unknown aligner: ${val_aligner}"
     }
 
-    ch_aligner_index.view()
-
     emit:
         index    = ch_aligner_index // channel: [ val(meta), path(index) ]
         versions = ch_versions      // channel: [ path(versions.yml) ]
