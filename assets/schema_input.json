@@ -26,8 +26,27 @@
                 "exists": true,
                 "pattern": "^\\S+\\.f(ast)?q\\.gz$",
                 "errorMessage": "FastQ file for reads 2 cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'"
+            },
+            "organism": {
+                "type": "string",
+                "pattern": "^\\S+$",
+                "errorMessage": "Taxonomic id cannot have spaces",
+                "meta": ["taxid"]
+            },
+            "reference_genome": {
+                "type": "string",
+                "pattern": "^\\S+$",
+                "errorMessage": "Fasta file of reference genome cannot contain spaces",
+                "meta": ["ref_genome_version"]
+            },
+            "strandedness": {
+                "type": "string",
+                "errorMessage": "Strandedness must be provided and be one of 'forward', 'reverse' or 'unstranded'",
+                "enum": ["forward", "reverse", "unstranded"],
+                "meta": ["strandedness"],
+                "default": "unknown"
             }
         },
-        "required": ["sample", "fastq_1"]
+        "required": ["sample", "fastq_1", "fastq_2", "reference_genome"]
     }
 }

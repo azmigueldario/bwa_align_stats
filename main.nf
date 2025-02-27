@@ -25,10 +25,11 @@ include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_bwa_
 //
 // WORKFLOW: Run main analysis pipeline depending on type of input
 //
-workflow AZMIGUELDARIO_BWA_ALIGN_STATS {
+workflow MAIN {
 
     take:
-    samplesheet // channel: samplesheet read in from --input
+    ch_samplesheet // channel: samplesheet read in from --input
+    ch_refgenome   // required fasta input
 
     main:
 
@@ -36,7 +37,8 @@ workflow AZMIGUELDARIO_BWA_ALIGN_STATS {
     // WORKFLOW: Run pipeline
     //
     BWA_ALIGN_STATS (
-        samplesheet
+        ch_samplesheet,
+        ch_refgenome
     )
 }
 /*
@@ -48,6 +50,7 @@ workflow AZMIGUELDARIO_BWA_ALIGN_STATS {
 workflow {
 
     main:
+
     //
     // SUBWORKFLOW: Run initialisation tasks
     //
@@ -63,8 +66,9 @@ workflow {
     //
     // WORKFLOW: Run main workflow
     //
-    AZMIGUELDARIO_BWA_ALIGN_STATS (
-        PIPELINE_INITIALISATION.out.samplesheet
+    MAIN (
+        PIPELINE_INITIALISATION.out.samplesheet,
+        PIPELINE_INITIALISATION.out.refgenome
     )
     //
     // SUBWORKFLOW: Run completion tasks
