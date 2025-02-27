@@ -72,21 +72,31 @@ workflow PIPELINE_INITIALISATION {
                 if (!fastq_2) {
                     return [ meta.id, meta + [ single_end:true ], [ fastq_1 ] ]
                 } else {
-                    return [ meta.id, meta + [ single_end:false ], [ fastq_1, fastq_2 ] ]
-                }
+                    return [ meta.id, meta + [ single_end:false ], [ fastq_1, fastq_2 ]]        }
         }
         .groupTuple()
         .map { samplesheet ->
-            validateInputSamplesheet(samplesheet)
-        }
+            validateInputSamplesheet(samplesheet) }
         .map {
             meta, fastqs ->
-                return [ meta, fastqs.flatten() ]
-        }
+                return [ meta, fastqs.flatten() ]   }
         .set { ch_samplesheet }
 
+    //
+    // Create channel for reference genome
+    //
+
+    Channel.fromPath(params.ref_genome, checkIfExists: true)
+        .map { 
+            fasta ->
+            def fmeta = [id: fasta.simpleName]
+            [fmeta, fasta]  }
+        .first()
+        .set{ ch_refgenome }
+
     emit:
-    samplesheet = ch_samplesheet
+    samplesheet = ch_samplesheet                    // tuple [meta, [fastq1, fastq2] ]
+    refgenome   = ch_refgenome                      // tuple [meta, fasta ]
     versions    = ch_versions
 }
 

@@ -42,6 +42,7 @@ plugins-prod
 sandbox
 wave-tests
 x/*
+null/
 
 # MacOS
 .DS_Store
