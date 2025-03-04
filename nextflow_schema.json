@@ -10,7 +10,7 @@
       "type": "object",
       "fa_icon": "fas fa-terminal",
       "description": "Define where the pipeline should find input data and save output data.",
-      "required": ["input", "outdir", "ref_genome"],
+      "required": ["input", "ref_genome", "outdir"],
       "properties": {
         "input": {
           "type": "string",
@@ -39,6 +39,30 @@
           "format": "directory-path",
           "description": "The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.",
           "fa_icon": "fas fa-folder-open"
+        }
+      }
+    },
+    "pipeline_options": {
+      "title": "Pipeline options",
+      "type": "object",
+      "description": "",
+      "default": "",
+      "properties": {
+        "fastp_save_trimmed_fail": {
+          "type": "boolean",
+          "description": "Option to save trimmed reads in fastp"
+        },
+        "fastp_save_merged": {
+          "type": "boolean",
+          "description": "Option to save merged reads in fastp"
+        },
+        "sort_bam": {
+          "type": "boolean",
+          "description": "Sort the resulting .bam file after the alignment step"
+        },
+        "skip_pileup": {
+          "type": "boolean",
+          "description": "Skip the mpileup process"
         }
       }
     },
@@ -144,6 +168,9 @@
   "allOf": [
     {
       "$ref": "#/$defs/input_output_options"
+    },
+    {
+      "$ref": "#/$defs/pipeline_options"
     },
     {
       "$ref": "#/$defs/institutional_config_options"
