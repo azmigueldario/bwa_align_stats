@@ -45,6 +45,11 @@
             "git_sha": "81880787133db07d9b4c1febd152c090eb8325dc",
             "installed_by": ["fasta_index_dna"]
           },
+          "fastp": {
+            "branch": "master",
+            "git_sha": "df6f67c19f76671b42ffa395cd2fde8958111eba",
+            "installed_by": ["modules"]
+          },
           "samtools/flagstat": {
             "branch": "master",
             "git_sha": "2d20463181b1c38981a02e90d3084b5f9fa8d540",
@@ -54,6 +59,21 @@
             "branch": "master",
             "git_sha": "2d20463181b1c38981a02e90d3084b5f9fa8d540",
             "installed_by": ["bam_stats_samtools"]
+          },
+          "samtools/index": {
+            "branch": "master",
+            "git_sha": "b13f07be4c508d6ff6312d354d09f2493243e208",
+            "installed_by": ["bam_sort_stats_samtools"]
+          },
+          "samtools/mpileup": {
+            "branch": "master",
+            "git_sha": "13e7d1046922381df90cd8fe9bee8c3e57ae8457",
+            "installed_by": ["modules"]
+          },
+          "samtools/sort": {
+            "branch": "master",
+            "git_sha": "b7800db9b069ed505db3f9d91b8c72faea9be17b",
+            "installed_by": ["bam_sort_stats_samtools"]
           },
           "samtools/stats": {
             "branch": "master",
@@ -69,15 +89,25 @@
             "branch": "master",
             "git_sha": "81880787133db07d9b4c1febd152c090eb8325dc",
             "installed_by": ["fasta_index_dna"]
+          },
+          "tabix/bgzip": {
+            "branch": "master",
+            "git_sha": "81880787133db07d9b4c1febd152c090eb8325dc",
+            "installed_by": ["modules"]
           }
         }
       },
       "subworkflows": {
         "nf-core": {
-          "bam_stats_samtools": {
+          "bam_sort_stats_samtools": {
             "branch": "master",
             "git_sha": "763d4b5c05ffda3ac1ac969dc67f7458cfb2eb1d",
             "installed_by": ["subworkflows"]
+          },
+          "bam_stats_samtools": {
+            "branch": "master",
+            "git_sha": "763d4b5c05ffda3ac1ac969dc67f7458cfb2eb1d",
+            "installed_by": ["bam_sort_stats_samtools"]
           },
           "fasta_index_dna": {
             "branch": "master",
