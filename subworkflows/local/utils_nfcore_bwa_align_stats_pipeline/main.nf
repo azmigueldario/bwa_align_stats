@@ -96,7 +96,7 @@ workflow PIPELINE_INITIALISATION {
         .set{ ch_refgenome }
 
     emit:
-    samplesheet = ch_samplesheet                    // tuple [meta, [fastq1, fastq2] ]
+    fastq_reads = ch_samplesheet                    // tuple [meta, [fastq1, fastq2] ]
     refgenome   = ch_refgenome                      // tuple [meta, fasta ]
     versions    = ch_versions
 }

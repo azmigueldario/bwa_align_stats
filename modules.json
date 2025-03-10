@@ -5,6 +5,11 @@
     "https://github.com/nf-core/modules.git": {
       "modules": {
         "nf-core": {
+          "bcftools/mpileup": {
+            "branch": "master",
+            "git_sha": "ede1e20af42e2f736638efae1b79762293a6a98a",
+            "installed_by": ["modules"]
+          },
           "bowtie2/align": {
             "branch": "master",
             "git_sha": "81880787133db07d9b4c1febd152c090eb8325dc",
@@ -50,6 +55,26 @@
             "git_sha": "df6f67c19f76671b42ffa395cd2fde8958111eba",
             "installed_by": ["modules"]
           },
+          "gatk4/markduplicates": {
+            "branch": "master",
+            "git_sha": "81880787133db07d9b4c1febd152c090eb8325dc",
+            "installed_by": ["modules"]
+          },
+          "gatk4spark/markduplicates": {
+            "branch": "master",
+            "git_sha": "81880787133db07d9b4c1febd152c090eb8325dc",
+            "installed_by": ["modules"]
+          },
+          "samtools/coverage": {
+            "branch": "master",
+            "git_sha": "2d20463181b1c38981a02e90d3084b5f9fa8d540",
+            "installed_by": ["modules"]
+          },
+          "samtools/faidx": {
+            "branch": "master",
+            "git_sha": "b13f07be4c508d6ff6312d354d09f2493243e208",
+            "installed_by": ["modules"]
+          },
           "samtools/flagstat": {
             "branch": "master",
             "git_sha": "2d20463181b1c38981a02e90d3084b5f9fa8d540",
@@ -91,6 +116,11 @@
             "installed_by": ["fasta_index_dna"]
           },
           "tabix/bgzip": {
+            "branch": "master",
+            "git_sha": "81880787133db07d9b4c1febd152c090eb8325dc",
+            "installed_by": ["modules"]
+          },
+          "unzip": {
             "branch": "master",
             "git_sha": "81880787133db07d9b4c1febd152c090eb8325dc",
             "installed_by": ["modules"]

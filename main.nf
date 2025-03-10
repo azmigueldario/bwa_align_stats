@@ -29,8 +29,8 @@ include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_bwa_
 workflow MAIN {
 
     take:
-    ch_samplesheet // channel: samplesheet read in from --input
-    ch_refgenome   // required fasta input
+    ch_fastq_reads  // tuple [meta, [fastq1, fastq2] ] from '--input samplesheet.csv'
+    ch_refgenome    // tuple [meta, fasta] from '--ref_genome fasta'
 
     main:
 
@@ -38,9 +38,13 @@ workflow MAIN {
     // WORKFLOW: Run pipeline
     //
     BWA_ALIGN_STATS (
-        ch_samplesheet,
-        ch_refgenome
-    )
+        ch_fastq_reads,
+        ch_refgenome,
+        params.ref_genome,
+        params.fastp_save_trimmed_fail,
+        params.fastp_save_merged,
+        params.aligner,
+        params.sort_bam )
 }
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -49,6 +53,8 @@ workflow MAIN {
 */
 
 workflow {
+
+
 
     main:
 
@@ -68,7 +74,7 @@ workflow {
     // WORKFLOW: Run main workflow
     //
     MAIN (
-        PIPELINE_INITIALISATION.out.samplesheet,
+        PIPELINE_INITIALISATION.out.fastq_reads,
         PIPELINE_INITIALISATION.out.refgenome
     )
     //
