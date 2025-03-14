@@ -10,7 +10,10 @@ include { BCFTOOLS_MPILEUP      } from '../../../modules/nf-core/bcftools/mpileu
 workflow BAM_PROCESSING_QC_STATS {
 
     take:
-    ch_bam              // channel: [ val(meta), [ bam ] ]
+    ch_bam                          // channel: [ val(meta), [ bam ] ]
+    ch_ref_fasta                    // channel: [ val(meta), [ genome.fa ] ]
+    ch_fasta_fai                    // channel: [ val(meta), [ genome.fasta.fai ] ]
+    ch_dictionary                   // channel: [ val(meta), [*.dict] ]
 
     main:
 
@@ -18,6 +21,8 @@ workflow BAM_PROCESSING_QC_STATS {
 
         // Sort the bam alignment
     SAMTOOLS_INDEX ( ch_bam )
+
+    // Capture versions
     ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions)
 
         // Join bam and bai
