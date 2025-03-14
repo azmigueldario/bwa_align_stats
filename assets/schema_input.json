@@ -41,10 +41,14 @@
             },
             "strandedness": {
                 "type": "string",
-                "errorMessage": "Strandedness must be provided and be one of 'forward', 'reverse' or 'unstranded'",
                 "enum": ["forward", "reverse", "unstranded"],
                 "meta": ["strandedness"],
                 "default": "unknown"
+            },
+            "flowcell": {
+                "type": "string",
+                "description" : "If known, specify the flowcell where the sample was run",
+                "meta": ["flowcell"]
             }
         },
         "required": ["sample", "fastq_1", "fastq_2", "reference_genome"]

@@ -55,6 +55,11 @@
             "git_sha": "df6f67c19f76671b42ffa395cd2fde8958111eba",
             "installed_by": ["modules"]
           },
+          "gatk4/createsequencedictionary": {
+            "branch": "master",
+            "git_sha": "81880787133db07d9b4c1febd152c090eb8325dc",
+            "installed_by": ["modules"]
+          },
           "gatk4/markduplicates": {
             "branch": "master",
             "git_sha": "81880787133db07d9b4c1febd152c090eb8325dc",
