@@ -7,12 +7,10 @@
 include { paramsSummaryMap          } from 'plugin/nf-schema'
 include { softwareVersionsToYAML    } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { methodsDescriptionText    } from '../subworkflows/local/utils_nfcore_bwa_align_stats_pipeline'
-
 include { PREPARE_INPUTS            } from '../subworkflows/local/prepare_inputs'
 include { FASTQ_ALIGN_DNA           } from '../subworkflows/nf-core/fastq_align_dna'
-include { BAM_SORT_STATS_SAMTOOLS   } from '../subworkflows/nf-core/bam_sort_stats_samtools'
 include { BAM_PROCESSING_QC_STATS   } from '../subworkflows/local/bam_processing_qc_stats'  
-include { BAM_MPILEUP_SNPS_VCF      } from '../subworkflows/local/bam_mpileup_snps_vcf'  
+include { BAM_PILEUP_VCF            } from '../subworkflows/local/bam_pileup_vcf/main.nf'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -30,22 +28,27 @@ workflow BWA_ALIGN_STATS {
     fastp_save_merged           // params.fastp_save_merged
     aligner                     // params.aligner
     sort_bam                    // params.sort_bam
+    save_mpileup                // params.save_mpileup
 
     main:
 
     ch_versions = Channel.empty()
+
+    // Add readgroups to the metamap
+    input_fastq = ch_fastq_reads.map{meta, files -> addReadgroupToMeta(meta, files)}
 
     // 
     // FastQ processing, prepare inputs
     //
 
     PREPARE_INPUTS(
-        ch_fastq_reads,
+        input_fastq,
         ch_refgenome,
         ref_genome_path,
         fastp_save_trimmed_fail,
         fastp_save_merged
     )
+    ch_versions = ch_versions.mix(PREPARE_INPUTS.out.versions)
 
     //
     // Align reads to reference genome
@@ -63,29 +66,26 @@ workflow BWA_ALIGN_STATS {
     // Processing alignment file
     //
 
-
-    /* Sort resulting bam and produce alignment stats
-
-    BAM_SORT_STATS_SAMTOOLS(
+    BAM_PROCESSING_QC_STATS(
         FASTQ_ALIGN_DNA.out.bam,
-        ch_refgenome    )
-    ch_versions = ch_versions.mix(BAM_SORT_STATS_SAMTOOLS.out.versions)
+        PREPARE_INPUTS.out.ref_fasta,
+        PREPARE_INPUTS.out.fasta_fai,
+        PREPARE_INPUTS.out.dictionary
+    )
+    ch_versions = ch_versions.mix(BAM_PROCESSING_QC_STATS.out.versions)
 
     //
-    // Optional: produce pileup and variant calling files
-    //      Skip with '--skip_pileup', or produce only the 
-    //      mpileup without variant calling using '--skip_variants'
+    // Variant calling and mpileup
     //
-
-    if ( !params.skip_pileup) {
-        BAM_MPILEUP_SNPS_VCF( 
-            BAM_SORT_STATS_SAMTOOLS.out.bam,
-            BAM_SORT_STATS_SAMTOOLS.out.bai,
-            ch_refgenome,
-            params.save_mpileup)
-        ch_versions = ch_versions.mix(BAM_MPILEUP_SNPS_VCF.out.versions)
-    }
-    */
+  
+    BAM_PILEUP_VCF(
+        BAM_PROCESSING_QC_STATS.out.bam,
+        BAM_PROCESSING_QC_STATS.out.bam_bai,
+        PREPARE_INPUTS.out.ref_fasta,
+        PREPARE_INPUTS.out.fasta_fai,
+        save_mpileup
+    )
+    ch_versions = ch_versions.mix(BAM_PILEUP_VCF.out.versions)
 
     //
     // Collate and save software versions
@@ -102,9 +102,83 @@ workflow BWA_ALIGN_STATS {
 
     emit:
     index          = PREPARE_INPUTS.out.bwamem2_index       // channel: [ val(meta), path(bwamem2_dir)]
+    // reports        = BAM_PROCESSING_QC_STATS.out.reports    // channel: [ val(meta), [report1, report2 ...]]
+    // mpileup        = BAM_MPILEUP_VCF.out.mpileup            // channel: [ val(meta), path(vcf_mpileup)]
+    //  vcf_freebayes  = BAM_MPILEUP_VCF.out.vcf_freebayes      // channel: [ val(meta), path(vcf_mpileup)]
     versions       = ch_collated_versions                   // channel: [ path(versions.yml) ]
 
 }
+
+/*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    FUNCTIONS (modified from nf-core/sarek)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
+
+// Add readgroup to meta and remove lane
+def addReadgroupToMeta(meta, files) {
+    def CN = params.seq_center ? "CN:${params.seq_center}\\t" : ''
+    def flowcell = flowcellLaneFromFastq(files[0])
+
+    // Check if flowcell ID matches
+    if ( flowcell && flowcell != flowcellLaneFromFastq(files[1]) ){
+        error("Flowcell ID does not match for paired reads of sample ${meta.id} - ${files}")
+    }
+
+    // If we cannot read the flowcell ID from the fastq file, then we don't use it
+    def sample_lane_id = flowcell ? "${flowcell}.${meta.id}" : "${meta.id}"
+
+    // Don't use a random element for ID, it breaks resuming
+    def read_group = "\"@RG\\tID:${sample_lane_id}\\t${CN}PU:${sample_lane_id}\\tSM:${meta.id}\\tLB:${meta.id}\\tDS:${meta.ref_genome_version}\\tPL:ILLUMINA\""
+    meta  = meta - meta.subMap('lane') + [read_group: read_group.toString()]
+    return [ meta, files ]
+}
+
+// Parse first line of a FASTQ file, return the flowcell id and lane number.
+def flowcellLaneFromFastq(path) {
+    // First line of FASTQ file contains sequence identifier plus optional description
+    def firstLine = readFirstLineOfFastq(path)
+    def flowcell_id = null
+
+    // Expected format from ILLUMINA
+    // cf https://en.wikipedia.org/wiki/FASTQ_format#Illumina_sequence_identifiers
+    // Five fields:
+    // @<instrument>:<lane>:<tile>:<x-pos>:<y-pos>...
+    // Seven fields or more (from CASAVA 1.8+):
+    // "@<instrument>:<run number>:<flowcell ID>:<lane>:<tile>:<x-pos>:<y-pos>..."
+
+    def fields = firstLine ? firstLine.split(':') : []
+        if (fields.size() == 5) {
+            // Get the instrument name as flowcell ID
+            flowcell_id = fields[0].substring(1)
+        } else if (fields.size() >= 7) {
+            // Get the actual flowcell ID
+            flowcell_id = fields[2]
+        } else if (fields.size() != 0) {
+            log.warn "FASTQ file(${path}): Cannot extract flowcell ID from ${firstLine}"
+        }
+        return flowcell_id
+}
+
+// Get first line of a FASTQ file
+def readFirstLineOfFastq(path) {
+    def line = null
+    try {
+        path.withInputStream {
+            InputStream gzipStream = new java.util.zip.GZIPInputStream(it)
+            Reader decoder = new InputStreamReader(gzipStream, 'ASCII')
+            BufferedReader buffered = new BufferedReader(decoder)
+            line = buffered.readLine()
+            assert line.startsWith('@')
+        }
+    } catch (Exception e) {
+        log.warn "FASTQ file(${path}): Error streaming"
+        log.warn "${e.message}"
+    }
+    return line
+}
+
+
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

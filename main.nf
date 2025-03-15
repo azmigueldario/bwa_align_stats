@@ -44,7 +44,8 @@ workflow MAIN {
         params.fastp_save_trimmed_fail,
         params.fastp_save_merged,
         params.aligner,
-        params.sort_bam )
+        params.sort_bam,
+        params.save_mpileup )
 }
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

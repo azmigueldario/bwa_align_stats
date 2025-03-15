@@ -35,6 +35,24 @@ workflow PIPELINE_INITIALISATION {
 
     ch_versions = Channel.empty()
 
+    def pipeline_logo='''
+    \u001B[32m
+        _______   __       __   ______                        ______   __  __                     
+        /       \\ /  |  _  /  | /      \\                      /      \\ /  |/  |                    
+        $$$$$$$  |$$ | / \\ $$ |/$$$$$$  |                    /$$$$$$  |$$ |$$/   ______   _______  
+        $$ |__$$ |$$ |/$  \\$$ |$$ |__$$ |       ______       $$ |__$$ |$$ |/  | /      \\ /       \\ 
+        $$    $$< $$ /$$$  $$ |$$    $$ |      /      |      $$    $$ |$$ |$$ |/$$$$$$  |$$$$$$$  |
+        $$$$$$$  |$$ $$/$$ $$ |$$$$$$$$ |      $$$$$$/       $$$$$$$$ |$$ |$$ |$$ |  $$ |$$ |  $$ |
+        $$ |__$$ |$$$$/  $$$$ |$$ |  $$ |                    $$ |  $$ |$$ |$$ |$$ \\__$$ |$$ |  $$ |
+        $$    $$/ $$$/    $$$ |$$ |  $$ |                    $$ |  $$ |$$ |$$ |$$    $$ |$$ |  $$ |
+        $$$$$$$/  $$/      $$/ $$/   $$/                     $$/   $$/ $$/ $$/  $$$$$$$ |$$/   $$/ 
+                                                                               /  \\__$$ |          
+                                                                               $$    $$/           
+                                                                                $$$$$$/            
+    \u001B[0m
+    '''
+    log.info pipeline_logo
+
     //
     // Print version and exit if required and dump pipeline parameters to JSON file
     //
@@ -149,6 +167,7 @@ def validateInputSamplesheet(input) {
 
     return [ metas[0], fastqs ]
 }
+
 //
 // Generate methods description for MultiQC
 //

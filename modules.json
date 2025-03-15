@@ -26,6 +26,13 @@
                             "fastq_align_dna"
                         ]
                     },
+                    "bwamem2/index": {
+                        "branch": "master",
+                        "git_sha": "b519b07af4ed954827e8cbbed1de3b6751ad2427",
+                        "installed_by": [
+                            "modules"
+                        ]
+                    },
                     "bwamem2/mem": {
                         "branch": "master",
                         "git_sha": "81880787133db07d9b4c1febd152c090eb8325dc",
@@ -47,6 +54,13 @@
                             "modules"
                         ]
                     },
+                    "freebayes": {
+                        "branch": "master",
+                        "git_sha": "81880787133db07d9b4c1febd152c090eb8325dc",
+                        "installed_by": [
+                            "modules"
+                        ]
+                    },
                     "gatk4/createsequencedictionary": {
                         "branch": "master",
                         "git_sha": "81880787133db07d9b4c1febd152c090eb8325dc",
@@ -54,14 +68,14 @@
                             "modules"
                         ]
                     },
-                    "gatk4/markduplicates": {
+                    "gatk4spark/markduplicates": {
                         "branch": "master",
                         "git_sha": "81880787133db07d9b4c1febd152c090eb8325dc",
                         "installed_by": [
                             "modules"
                         ]
                     },
-                    "gatk4spark/markduplicates": {
+                    "mosdepth": {
                         "branch": "master",
                         "git_sha": "81880787133db07d9b4c1febd152c090eb8325dc",
                         "installed_by": [
@@ -82,9 +96,23 @@
                             "modules"
                         ]
                     },
+                    "samtools/index": {
+                        "branch": "master",
+                        "git_sha": "b13f07be4c508d6ff6312d354d09f2493243e208",
+                        "installed_by": [
+                            "modules"
+                        ]
+                    },
                     "samtools/mpileup": {
                         "branch": "master",
                         "git_sha": "13e7d1046922381df90cd8fe9bee8c3e57ae8457",
+                        "installed_by": [
+                            "modules"
+                        ]
+                    },
+                    "samtools/stats": {
+                        "branch": "master",
+                        "git_sha": "2d20463181b1c38981a02e90d3084b5f9fa8d540",
                         "installed_by": [
                             "modules"
                         ]
@@ -94,13 +122,6 @@
                         "git_sha": "81880787133db07d9b4c1febd152c090eb8325dc",
                         "installed_by": [
                             "fastq_align_dna"
-                        ]
-                    },
-                    "tabix/bgzip": {
-                        "branch": "master",
-                        "git_sha": "81880787133db07d9b4c1febd152c090eb8325dc",
-                        "installed_by": [
-                            "modules"
                         ]
                     },
                     "unzip": {
