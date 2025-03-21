@@ -201,6 +201,20 @@
   "properties": {
     "skip_freebayes": {
       "type": "boolean"
+    },
+    "skip_haplotypecaller": {
+      "type": "boolean"
+    },
+    "ploidy": {
+      "type": "integer",
+      "default": 2
+    },
+    "haplotype_caller_options": {
+      "type": "string"
+    },
+    "joint_variant_calling": {
+      "type": "boolean",
+      "default": true
     }
   }
 }

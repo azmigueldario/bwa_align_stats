@@ -83,6 +83,7 @@ workflow BWA_ALIGN_STATS {
         BAM_PROCESSING_QC_STATS.out.bam_bai,
         PREPARE_INPUTS.out.ref_fasta,
         PREPARE_INPUTS.out.fasta_fai,
+        PREPARE_INPUTS.out.dictionary,
         save_mpileup
     )
     ch_versions = ch_versions.mix(BAM_PILEUP_VCF.out.versions)
@@ -104,7 +105,7 @@ workflow BWA_ALIGN_STATS {
     index          = PREPARE_INPUTS.out.bwamem2_index       // channel: [ val(meta), path(bwamem2_dir)]
     // reports        = BAM_PROCESSING_QC_STATS.out.reports    // channel: [ val(meta), [report1, report2 ...]]
     // mpileup        = BAM_MPILEUP_VCF.out.mpileup            // channel: [ val(meta), path(vcf_mpileup)]
-    //  vcf_freebayes  = BAM_MPILEUP_VCF.out.vcf_freebayes      // channel: [ val(meta), path(vcf_mpileup)]
+    // vcf_freebayes  = BAM_MPILEUP_VCF.out.vcf_freebayes      // channel: [ val(meta), path(vcf_mpileup)]
     versions       = ch_collated_versions                   // channel: [ path(versions.yml) ]
 
 }

@@ -4,12 +4,6 @@ include { GATK4SPARK_MARKDUPLICATES         } from '../../../modules/nf-core/gat
 include { SAMTOOLS_STATS                    } from '../../../modules/nf-core/samtools/stats/main'
 include { MOSDEPTH                          } from '../../../modules/nf-core/mosdepth/main'
 
-include { TABIX_BGZIP           } from '../../../modules/nf-core/tabix/bgzip/main'
-include { SAMTOOLS_FAIDX        } from '../../../modules/nf-core/samtools/faidx/main'
-include { SAMTOOLS_COVERAGE     } from '../../../modules/nf-core/samtools/coverage/main'  
-include { SAMTOOLS_MPILEUP      } from '../../../modules/nf-core/samtools/mpileup/main'
-include { BCFTOOLS_MPILEUP      } from '../../../modules/nf-core/bcftools/mpileup/main'      
-
 workflow BAM_PROCESSING_QC_STATS {
 
     take:
@@ -36,25 +30,26 @@ workflow BAM_PROCESSING_QC_STATS {
     GATK4SPARK_MARKDUPLICATES.out.output
         .join(SAMTOOLS_INDEX.out.bai, failOnDuplicate:true, failOnMismatch: true )
         .set{ ch_bam_bai }
+
+    // Alignment stats after deduplication
     SAMTOOLS_STATS(
         ch_bam_bai, 
         ch_ref_fasta
         )
+    ch_reports = ch_reports.mix(SAMTOOLS_STATS.out.stats)
+    
     if (!params.skip_coverage){
         MOSDEPTH(
             ch_bam_bai.map{ meta, bam, bai -> [ meta, bam, bai, [] ]},
             ch_ref_fasta
         )
+        ch_reports = ch_reports.mix(MOSDEPTH.out.global_txt)
+        ch_reports = ch_reports.mix(MOSDEPTH.out.regions_txt)
+        ch_versions = ch_versions.mix(MOSDEPTH.out.versions)
     }
-
-    // Gather all reports generated
-    ch_reports = ch_reports.mix(SAMTOOLS_STATS.out.stats)
-    ch_reports = ch_reports.mix(MOSDEPTH.out.global_txt)
-    ch_reports = ch_reports.mix(MOSDEPTH.out.regions_txt)
 
     // Capture versions
     ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions)
-    ch_versions = ch_versions.mix(MOSDEPTH.out.versions)
     ch_versions = ch_versions.mix(GATK4SPARK_MARKDUPLICATES.out.versions)
 
     emit:
