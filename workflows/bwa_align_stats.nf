@@ -11,6 +11,8 @@ include { PREPARE_INPUTS            } from '../subworkflows/local/prepare_inputs
 include { FASTQ_ALIGN_DNA           } from '../subworkflows/nf-core/fastq_align_dna'
 include { BAM_PROCESSING_QC_STATS   } from '../subworkflows/local/bam_processing_qc_stats'  
 include { BAM_PILEUP_VCF            } from '../subworkflows/local/bam_pileup_vcf/main.nf'
+include { VCF_STATS_REPORTS         } from '../subworkflows/local/vcf_stats_reports/main.nf'
+
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -77,7 +79,7 @@ workflow BWA_ALIGN_STATS {
     //
     // Variant calling and mpileup
     //
-  
+
     BAM_PILEUP_VCF(
         BAM_PROCESSING_QC_STATS.out.bam,
         BAM_PROCESSING_QC_STATS.out.bam_bai,
@@ -87,6 +89,13 @@ workflow BWA_ALIGN_STATS {
         save_mpileup
     )
     ch_versions = ch_versions.mix(BAM_PILEUP_VCF.out.versions)
+
+    VCF_STATS_REPORTS(
+        BAM_PILEUP_VCF.out.vcf_gatk4,
+        BAM_PILEUP_VCF.out.vcf_bcftools,
+        BAM_PILEUP_VCF.out.vcf_freebayes
+    )
+    ch_versions = ch_versions.mix(VCF_STATS_REPORTS.out.versions)
 
     //
     // Collate and save software versions
@@ -99,20 +108,20 @@ workflow BWA_ALIGN_STATS {
             sort: true,
             newLine: true
         ).set { ch_collated_versions }
-
+    
 
     emit:
     index          = PREPARE_INPUTS.out.bwamem2_index       // channel: [ val(meta), path(bwamem2_dir)]
     // reports        = BAM_PROCESSING_QC_STATS.out.reports    // channel: [ val(meta), [report1, report2 ...]]
-    // mpileup        = BAM_MPILEUP_VCF.out.mpileup            // channel: [ val(meta), path(vcf_mpileup)]
-    // vcf_freebayes  = BAM_MPILEUP_VCF.out.vcf_freebayes      // channel: [ val(meta), path(vcf_mpileup)]
-    versions       = ch_collated_versions                   // channel: [ path(versions.yml) ]
+    mpileup        = BAM_PILEUP_VCF.out.mpileup            // channel: [ val(meta), path(vcf_mpileup)]
+    vcf_freebayes  = BAM_PILEUP_VCF.out.vcf_freebayes      // channel: [ val(meta), path(vcf_mpileup)]
+    versions       = ch_collated_versions                  // channel: [ path(versions.yml) ]
 
 }
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    FUNCTIONS (modified from nf-core/sarek)
+    FUNCTION FOR READ GROUPS (modified from nf-core/sarek)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 

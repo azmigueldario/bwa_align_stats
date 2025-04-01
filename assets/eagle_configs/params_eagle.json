@@ -1,0 +1,9 @@
+{
+    "input" : "/scratch/mdprieto/bwa_align_stats/test/test.csv",
+    "outdir" : "/scratch/mdprieto/results/bwa_align",
+    "save_mpileup" : true,
+    "ref_genome": "/mnt/cidgoh-object-storage/database/reference_genomes/giardia/assemblage_E/GiardiaDB-68_GintestinalisAssemblageEP15_Genome.fasta.gz",
+    "ploidy": 4,
+    "skip_pileup": false,
+    "sort_bam": true
+}
