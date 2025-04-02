@@ -8,6 +8,7 @@ include { paramsSummaryMap          } from 'plugin/nf-schema'
 include { softwareVersionsToYAML    } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { methodsDescriptionText    } from '../subworkflows/local/utils_nfcore_bwa_align_stats_pipeline'
 include { PREPARE_INPUTS            } from '../subworkflows/local/prepare_inputs'
+include { FASTQ_ALIGN_COMPOSITE_BAM } from '../subworkflows/local/fastq_align_composite_bam/main.nf'
 include { FASTQ_ALIGN_DNA           } from '../subworkflows/nf-core/fastq_align_dna'
 include { BAM_PROCESSING_QC_STATS   } from '../subworkflows/local/bam_processing_qc_stats'  
 include { BAM_PILEUP_VCF            } from '../subworkflows/local/bam_pileup_vcf/main.nf'
@@ -52,6 +53,14 @@ workflow BWA_ALIGN_STATS {
     )
     ch_versions = ch_versions.mix(PREPARE_INPUTS.out.versions)
 
+    //
+    // Classify assemblage of input reads
+    //
+    FASTQ_ALIGN_COMPOSITE_BAM(
+        PREPARE_INPUTS.out.reads,
+        params.genome_list_classification
+    )
+    
     //
     // Align reads to reference genome
     //

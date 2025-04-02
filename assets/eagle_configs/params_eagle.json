@@ -3,6 +3,10 @@
     "outdir" : "/scratch/mdprieto/results/bwa_align",
     "save_mpileup" : true,
     "ref_genome": "/mnt/cidgoh-object-storage/database/reference_genomes/giardia/assemblage_E/GiardiaDB-68_GintestinalisAssemblageEP15_Genome.fasta.gz",
+    "genome_list_classification": [
+        "/mnt/cidgoh-object-storage/database/reference_genomes/giardia/assemblage_E/GiardiaDB-68_GintestinalisAssemblageEP15_Genome.fasta.gz", 
+        "/mnt/cidgoh-object-storage/database/reference_genomes/giardia/assemblage_B/GiardiaDB-68_GintestinalisAssemblageBGS_B_Genome.fasta"
+    ],
     "ploidy": 4,
     "skip_pileup": false,
     "sort_bam": true
