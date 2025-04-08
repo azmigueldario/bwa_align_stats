@@ -43,6 +43,7 @@ workflow MAIN {
         params.ref_genome,
         params.fastp_save_trimmed_fail,
         params.fastp_save_merged,
+        params.genome_list_composite,
         params.aligner,
         params.sort_bam,
         params.save_mpileup )

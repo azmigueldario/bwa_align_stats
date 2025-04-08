@@ -1,13 +1,13 @@
 {
-    "input" : "/scratch/mdprieto/bwa_align_stats/test/test.csv",
-    "outdir" : "/scratch/mdprieto/results/bwa_align",
-    "save_mpileup" : true,
-    "ref_genome": "/mnt/cidgoh-object-storage/database/reference_genomes/giardia/assemblage_E/GiardiaDB-68_GintestinalisAssemblageEP15_Genome.fasta.gz",
-    "genome_list_classification": [
-        "/mnt/cidgoh-object-storage/database/reference_genomes/giardia/assemblage_E/GiardiaDB-68_GintestinalisAssemblageEP15_Genome.fasta.gz", 
-        "/mnt/cidgoh-object-storage/database/reference_genomes/giardia/assemblage_B/GiardiaDB-68_GintestinalisAssemblageBGS_B_Genome.fasta"
-    ],
-    "ploidy": 4,
-    "skip_pileup": false,
-    "sort_bam": true
+  "input": "/scratch/mdprieto/bwa_align_stats/test/test.csv",
+  "outdir": "/scratch/mdprieto/results/bwa_align",
+  "ref_genome": "/mnt/cidgoh-object-storage/database/reference_genomes/giardia/assemblage_E/GiardiaDB-68_GintestinalisAssemblageEP15_Genome.fasta.gz",
+  "genome_list_composite": [
+    "/mnt/cidgoh-object-storage/database/reference_genomes/giardia/assemblage_A/Giardia_GCF000002435_WB_genomic.fna",
+    "/mnt/cidgoh-object-storage/database/reference_genomes/giardia/assemblage_B/GiardiaDB-68_GintestinalisAssemblageBGS_B_Genome.fasta"
+  ],
+  "save_mpileup": true,
+  "ploidy": 4,
+  "skip_pileup": false,
+  "sort_bam": true
 }

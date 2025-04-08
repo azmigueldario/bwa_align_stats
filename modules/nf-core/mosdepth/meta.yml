@@ -149,7 +149,8 @@ output:
             e.g. [ id:'test', single_end:false ]
       - "*.thresholds.bed.gz":
           type: file
-          description: BED file with the number of bases in each region that are covered
+          description:
+            BED file with the number of bases in each region that are covered
             at or above each threshold
           pattern: "*.{thresholds.bed.gz}"
   - thresholds_csi:

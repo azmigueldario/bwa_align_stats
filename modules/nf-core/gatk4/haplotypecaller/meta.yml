@@ -34,7 +34,8 @@ input:
         description: Bed file with the genomic regions included in the library (optional)
     - dragstr_model:
         type: file
-        description: Text file containing the DragSTR model of the used BAM/CRAM file
+        description:
+          Text file containing the DragSTR model of the used BAM/CRAM file
           (optional)
         pattern: "*.txt"
   - - meta2:

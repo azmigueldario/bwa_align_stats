@@ -8,7 +8,8 @@ keywords:
   - sam
 tools:
   - "snapaligner":
-      description: "Scalable Nucleotide Alignment Program -- a fast and accurate read
+      description:
+        "Scalable Nucleotide Alignment Program -- a fast and accurate read
         aligner for high-throughput sequencing data"
       homepage: "http://snap.cs.berkeley.edu"
       documentation: "https://1drv.ms/b/s!AhuEg_0yZD86hcpblUt-muHKYsG8fA?e=R8ogug"
@@ -24,7 +25,8 @@ input:
           e.g. [ id:'test', single_end:false ]
     - reads:
         type: file
-        description: List of input fastq files of size 2 for paired fastq or 1 for bam
+        description:
+          List of input fastq files of size 2 for paired fastq or 1 for bam
           or single fastq
         pattern: "*.{fastq.gz,fq.gz,fastq,fq,bam}"
   - - meta2:
@@ -66,3 +68,5 @@ authors:
   - "@matthdsm"
 maintainers:
   - "@matthdsm"
+  - "@delfiterradas"
+  - "@sofiromano"

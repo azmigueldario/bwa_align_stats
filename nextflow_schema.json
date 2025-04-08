@@ -25,71 +25,106 @@
         },
         "ref_genome": {
           "type": "string",
-          "description": "Path to reference genome used for alignment"
+          "description": "Path to reference genome used for alignment",
+          "fa_icon": "fas fa-file"
         },
         "aligner": {
           "type": "string",
           "default": "bwamem2",
           "description": "Aligner to use to create index and map to reference genome",
           "enum": ["bwamem", "bwamem2", "bowtie2", "snap", "dragmap"],
-          "help_text": "Must specify one of the acceptable aligners: bwamem, bwamem2, bowtie2, snap, or dragmap"
+          "help_text": "Must specify one of the acceptable aligners: bwamem, bwamem2, bowtie2, snap, or dragmap",
+          "fa_icon": "fas fa-code"
         },
         "outdir": {
           "type": "string",
           "format": "directory-path",
           "description": "The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.",
-          "fa_icon": "fas fa-folder-open"
+          "fa_icon": "fas fa-folder-open",
+          "help_text": "Specify the output directory of the pipeline"
         },
         "seq_center": {
           "type": "string",
           "description": "Sequencing center for samples included in analysis",
-          "help_text": ""
+          "fa_icon": "fas fa-code"
+        },
+        "genome_list_composite": {
+          "type": "array",
+          "fa_icon": "fas fa-copy",
+          "description": "List containing two paths to reference genomes for classification through competitive alignment"
         }
       }
     },
     "pipeline_options": {
       "title": "Pipeline options",
       "type": "object",
-      "description": "",
+      "description": "Parameters to skip optional steps in the pipeline or modify runtime of some processes",
       "default": "",
       "properties": {
         "fastp_save_trimmed_fail": {
           "type": "boolean",
-          "description": "Option to save trimmed reads in fastp"
+          "description": "Option to save trimmed reads in fastp",
+          "fa_icon": "fas fa-filter"
         },
         "fastp_save_merged": {
           "type": "boolean",
-          "description": "Option to save merged reads in fastp"
+          "description": "Option to save merged reads in fastp",
+          "fa_icon": "fas fa-filter"
         },
         "sort_bam": {
           "type": "boolean",
           "description": "Sort the resulting .bam file after the alignment step",
-          "default": true
+          "default": true,
+          "fa_icon": "fas fa-filter"
         },
         "skip_pileup": {
           "type": "boolean",
-          "description": "Skip the mpileup process"
+          "description": "Skip the mpileup process",
+          "fa_icon": "fas fa-filter"
         },
         "save_mpileup": {
-          "type": "boolean"
+          "type": "boolean",
+          "fa_icon": "fas fa-filter",
+          "description": "Option to produce a pileup file for a genome viewer tool"
         },
         "opt_bcfpileup": {
-          "type": "string"
+          "type": "string",
+          "fa_icon": "fas fa-filter",
+          "description": "Option flags to pass into the BCF pileup command"
         },
         "consensus_caller": {
-          "type": "boolean"
-        },
-        "trace_report_suffix": {
-          "type": "string",
-          "fa_icon": "far calendar",
-          "description": "Suffix to add to the trace report filename. Default is the date and time in the format yyyy-MM-dd_HH-mm-ss.",
-          "hidden": true
+          "type": "boolean",
+          "fa_icon": "fas fa-filter",
+          "description": "Specify if BCFtools should use the old consensus caller algorithm to define variants"
         },
         "skip_coverage": {
           "type": "boolean",
-          "default": true
+          "fa_icon": "fas fa-filter",
+          "description": "Option to skip computation of coverage in bam files during the variant calling workflow"
+        },
+        "skip_haplotypecaller": {
+          "type": "boolean",
+          "fa_icon": "fas fa-filter",
+          "description": "Skip variant calling with GATK4 haplotype caller"
+        },
+        "haplotype_caller_options": {
+          "type": "string",
+          "fa_icon": "fas fa-filter",
+          "description": "Option flags to pass into GATK4 haplotype caller"
+        },
+        "ploidy": {
+          "type": "integer",
+          "default": 2,
+          "fa_icon": "fas fa-sort-numeric-up",
+          "description": "Ploidy of isolates to analyze"
+        },
+        "skip_freebayes": {
+          "type": "boolean",
+          "fa_icon": "fas fa-filter",
+          "description": "Skip variant calling with the Freebayes tool"
         }
-      }
+      },
+      "fa_icon": "fas fa-terminal"
     },
     "institutional_config_options": {
       "title": "Institutional config options",
@@ -146,6 +181,12 @@
       "description": "Less common options for the pipeline, typically set in a config file.",
       "help_text": "These options are common to all nf-core pipelines and allow you to customise some of the core preferences for how the pipeline runs.\n\nTypically these options would be set in a Nextflow config file loaded for all pipeline runs, such as `~/.nextflow/config`.",
       "properties": {
+        "trace_report_suffix": {
+          "type": "string",
+          "fa_icon": "far calendar",
+          "description": "Suffix to add to the trace report filename. Default is the date and time in the format yyyy-MM-dd_HH-mm-ss.",
+          "hidden": true
+        },
         "version": {
           "type": "boolean",
           "description": "Display version and exit.",
@@ -197,24 +238,5 @@
     {
       "$ref": "#/$defs/generic_options"
     }
-  ],
-  "properties": {
-    "skip_freebayes": {
-      "type": "boolean"
-    },
-    "skip_haplotypecaller": {
-      "type": "boolean"
-    },
-    "ploidy": {
-      "type": "integer",
-      "default": 2
-    },
-    "haplotype_caller_options": {
-      "type": "string"
-    },
-    "joint_variant_calling": {
-      "type": "boolean",
-      "default": true
-    }
-  }
+  ]
 }

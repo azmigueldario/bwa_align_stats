@@ -23,9 +23,9 @@ workflow BAM_PROCESSING_QC_STATS {
     // Mark duplicates and dort resulting bam file
     GATK4SPARK_MARKDUPLICATES(
         ch_bam,
-        ch_ref_fasta.map{ meta, fasta -> fasta },
-        ch_fasta_fai.map{ meta, fasta_fai -> fasta_fai },
-        ch_dictionary.map{ meta, dict -> dict}
+        ch_ref_fasta.map{ _meta, fasta -> fasta },
+        ch_fasta_fai.map{ _meta, fasta_fai -> fasta_fai },
+        ch_dictionary.map{ _meta, dict -> dict}
     )
     SAMTOOLS_INDEX( GATK4SPARK_MARKDUPLICATES.out.output )
     

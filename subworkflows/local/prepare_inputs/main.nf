@@ -39,7 +39,10 @@ workflow PREPARE_INPUTS {
     }
 
     // Create genome.fasta.fai and alignment index
-    SAMTOOLS_FAIDX(ch_ref_fasta, [ [ id:'no_fai' ], [] ] )
+    SAMTOOLS_FAIDX(
+        ch_ref_fasta, 
+        [ [ id:'no_fai' ], [] ],
+        false )
     BWAMEM2_INDEX(ch_ref_fasta)
 
     // Create sequence dictionary for GATK4 processes

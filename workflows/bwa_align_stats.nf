@@ -29,6 +29,7 @@ workflow BWA_ALIGN_STATS {
     ref_genome_path             // params.ref_genome
     fastp_save_trimmed_fail     // params.fastp_save_trimmed_fail
     fastp_save_merged           // params.fastp_save_merged
+    composite_references_input  // params.genome_list_composite
     aligner                     // params.aligner
     sort_bam                    // params.sort_bam
     save_mpileup                // params.save_mpileup
@@ -58,7 +59,8 @@ workflow BWA_ALIGN_STATS {
     //
     FASTQ_ALIGN_COMPOSITE_BAM(
         PREPARE_INPUTS.out.reads,
-        params.genome_list_classification
+        composite_references_input,
+        sort_bam
     )
     
     //

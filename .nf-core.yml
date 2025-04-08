@@ -1,1 +1,36 @@
 repository_type: pipeline
+lint:
+  actions_awsfulltest: False
+  actions_awstest: False
+  pipeline_todos: False
+  pipeline_name_conventions: False
+  files_exist:
+    - .gitattributes
+    - .nf-core.yml
+    - .editorconfig
+    - .prettierignore
+    - .prettierrc.yml
+    - .github/.dockstore.yml
+    - .github/CONTRIBUTING.md
+    - .github/ISSUE_TEMPLATE/bug_report.yml
+    - .github/ISSUE_TEMPLATE/config.yml
+    - .github/ISSUE_TEMPLATE/feature_request.yml
+    - .github/PULL_REQUEST_TEMPLATE.md
+    - .github/workflows/branch.yml
+    - .github/workflows/ci.yml
+    - .github/workflows/linting_comment.yml
+    - .github/workflows/linting.yml
+    - conf/modules.config
+    - conf/test.config
+    - conf/test_full.config
+    - CHANGELOG.md
+    - CITATIONS.md
+    - CODE_OF_CONDUCT.md
+    - docs/images/nf-core-PIPELINE_logo_light.png
+    - docs/images/nf-core-PIPELINE_logo_dark.png
+    - docs/output.md
+    - docs/README.md
+    - docs/usage.md
+    - nextflow_schema.json
+    - nextflow.config
+    - README.md

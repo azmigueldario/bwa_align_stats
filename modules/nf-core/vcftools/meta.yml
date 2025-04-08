@@ -6,7 +6,8 @@ keywords:
   - sort
 tools:
   - vcftools:
-      description: A set of tools written in Perl and C++ for working with VCF files.
+      description:
+        A set of tools written in Perl and C++ for working with VCF files.
         This package only contains the C++ libraries whereas the package perl-vcftools-vcf
         contains the perl libraries
       homepage: http://vcftools.sourceforge.net/
@@ -24,11 +25,13 @@ input:
         description: variant input file which can be vcf, vcf.gz, or bcf format.
   - - bed:
         type: file
-        description: bed file which can be used with different arguments in vcftools
+        description:
+          bed file which can be used with different arguments in vcftools
           (optional)
   - - diff_variant_file:
         type: file
-        description: secondary variant file which can be used with the 'diff' suite
+        description:
+          secondary variant file which can be used with the 'diff' suite
           of tools (optional)
 output:
   - vcf:
@@ -129,7 +132,8 @@ output:
             e.g. [ id:'test', single_end:false ]
       - "*.geno.ld":
           type: file
-          description: squared correlation coefficient between genotypes encoded as 0,
+          description:
+            squared correlation coefficient between genotypes encoded as 0,
             1 and 2 to represent the number of non-reference alleles in each individual
             (optional)
           pattern: "*.geno.ld"
@@ -151,7 +155,8 @@ output:
             e.g. [ id:'test', single_end:false ]
       - "*.list.hap.ld":
           type: file
-          description: r2 statistics of the sites contained in the provided input file
+          description:
+            r2 statistics of the sites contained in the provided input file
             verses all other sites (optional)
           pattern: "*.list.hap.ld"
   - list_geno_ld:
@@ -162,7 +167,8 @@ output:
             e.g. [ id:'test', single_end:false ]
       - "*.list.geno.ld":
           type: file
-          description: r2 statistics of the sites contained in the provided input file
+          description:
+            r2 statistics of the sites contained in the provided input file
             verses all other sites (optional)
           pattern: "*.list.geno.ld"
   - interchrom_hap_ld:
@@ -193,7 +199,8 @@ output:
             e.g. [ id:'test', single_end:false ]
       - "*.TsTv":
           type: file
-          description: Transition / Transversion ratio in bins of size defined in options
+          description:
+            Transition / Transversion ratio in bins of size defined in options
             (optional)
           pattern: "*.TsTv"
   - tstv_summary:
@@ -214,7 +221,8 @@ output:
             e.g. [ id:'test', single_end:false ]
       - "*.TsTv.count":
           type: file
-          description: Transition / Transversion ratio as a function of alternative allele
+          description:
+            Transition / Transversion ratio as a function of alternative allele
             count (optional)
           pattern: "*.TsTv.count"
   - tstv_qual:
@@ -225,7 +233,8 @@ output:
             e.g. [ id:'test', single_end:false ]
       - "*.TsTv.qual":
           type: file
-          description: Transition / Transversion ratio as a function of SNP quality threshold
+          description:
+            Transition / Transversion ratio as a function of SNP quality threshold
             (optional)
           pattern: "*.TsTv.qual"
   - filter_summary:
@@ -236,7 +245,8 @@ output:
             e.g. [ id:'test', single_end:false ]
       - "*.FILTER.summary":
           type: file
-          description: Summary of the number of SNPs and Ts/Tv ratio for each FILTER category
+          description:
+            Summary of the number of SNPs and Ts/Tv ratio for each FILTER category
             (optional)
           pattern: "*.FILTER.summary"
   - sites_pi:
@@ -257,7 +267,8 @@ output:
             e.g. [ id:'test', single_end:false ]
       - "*.windowed.pi":
           type: file
-          description: Nucleotide diversity in windows, with window size determined by
+          description:
+            Nucleotide diversity in windows, with window size determined by
             options (optional)
           pattern: "*windowed.pi"
   - weir_fst:
@@ -288,7 +299,8 @@ output:
             e.g. [ id:'test', single_end:false ]
       - "*.hwe":
           type: file
-          description: Contains the Observed numbers of Homozygotes and Heterozygotes
+          description:
+            Contains the Observed numbers of Homozygotes and Heterozygotes
             and the corresponding Expected numbers under HWE (optional)
           pattern: "*.hwe"
   - tajima_d:
@@ -299,7 +311,8 @@ output:
             e.g. [ id:'test', single_end:false ]
       - "*.Tajima.D":
           type: file
-          description: Tajima’s D statistic in bins with size of the specified number
+          description:
+            Tajima’s D statistic in bins with size of the specified number
             in options (optional)
           pattern: "*.Tajima.D"
   - freq_burden:
@@ -310,7 +323,8 @@ output:
             e.g. [ id:'test', single_end:false ]
       - "*.ifreqburden":
           type: file
-          description: Number of variants within each individual of a specific frequency
+          description:
+            Number of variants within each individual of a specific frequency
             in options (optional)
           pattern: "*.ifreqburden"
   - lroh:
@@ -331,7 +345,8 @@ output:
             e.g. [ id:'test', single_end:false ]
       - "*.relatedness":
           type: file
-          description: Relatedness statistic based on the method of Yang et al, Nature
+          description:
+            Relatedness statistic based on the method of Yang et al, Nature
             Genetics 2010 (doi:10.1038/ng.608) (optional)
           pattern: "*.relatedness"
   - relatedness2:
@@ -342,7 +357,8 @@ output:
             e.g. [ id:'test', single_end:false ]
       - "*.relatedness2":
           type: file
-          description: Relatedness statistic based on the method of Manichaikul et al.,
+          description:
+            Relatedness statistic based on the method of Manichaikul et al.,
             BIOINFORMATICS 2010 (doi:10.1093/bioinformatics/btq559) (optional)
           pattern: "*.relatedness2"
   - lqual:
@@ -453,7 +469,8 @@ output:
             e.g. [ id:'test', single_end:false ]
       - "*.FORMAT":
           type: file
-          description: Extracted information from the genotype fields in the VCF file
+          description:
+            Extracted information from the genotype fields in the VCF file
             relating to a specified FORMAT identifier (optional)
           pattern: "*.FORMAT"
   - info:
@@ -488,7 +505,8 @@ output:
             e.g. [ id:'test', single_end:false ]
       - "*.012.indv":
           type: file
-          description: Details the individuals included in the main genotypes_matrix file
+          description:
+            Details the individuals included in the main genotypes_matrix file
             (optional)
           pattern: "*.012.indv"
   - genotypes_matrix_position:
@@ -499,7 +517,8 @@ output:
             e.g. [ id:'test', single_end:false ]
       - "*.012.pos":
           type: file
-          description: Details the site locations included in the main genotypes_matrix
+          description:
+            Details the site locations included in the main genotypes_matrix
             file (optional)
           pattern: "*.012.pos"
   - impute_hap:
@@ -620,7 +639,8 @@ output:
             e.g. [ id:'test', single_end:false ]
       - "*.diff.sites_in_files":
           type: file
-          description: Sites that are common / unique to each file specified in optional
+          description:
+            Sites that are common / unique to each file specified in optional
             inputs (optional)
           pattern: "*.diff.sites.in.files"
   - diff_indv_in_files:
@@ -631,7 +651,8 @@ output:
             e.g. [ id:'test', single_end:false ]
       - "*.diff.indv_in_files":
           type: file
-          description: Individuals that are common / unique to each file specified in
+          description:
+            Individuals that are common / unique to each file specified in
             optional inputs (optional)
           pattern: "*.diff.indv.in.files"
   - diff_sites:
@@ -642,7 +663,8 @@ output:
             e.g. [ id:'test', single_end:false ]
       - "*.diff.sites":
           type: file
-          description: Discordance on a site by site basis, specified in optional inputs
+          description:
+            Discordance on a site by site basis, specified in optional inputs
             (optional)
           pattern: "*.diff.sites"
   - diff_indv:
@@ -653,7 +675,8 @@ output:
             e.g. [ id:'test', single_end:false ]
       - "*.diff.indv":
           type: file
-          description: Discordance on a individual by individual basis, specified in optional
+          description:
+            Discordance on a individual by individual basis, specified in optional
             inputs (optional)
           pattern: "*.diff.indv"
   - diff_discd_matrix:

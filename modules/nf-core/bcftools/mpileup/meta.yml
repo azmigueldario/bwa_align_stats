@@ -25,7 +25,8 @@ input:
         pattern: "*.{bam}"
     - intervals:
         type: file
-        description: Input intervals file. A file (commonly '.bed') containing regions
+        description:
+          Input intervals file. A file (commonly '.bed') containing regions
           to subset
   - - meta2:
         type: map
