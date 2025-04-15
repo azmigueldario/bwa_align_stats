@@ -1,7 +1,7 @@
 {
-  "input": "/scratch/mdprieto/bwa_align_stats/test/test.csv",
-  "outdir": "/scratch/mdprieto/results/bwa_align",
-  "ref_genome": "/mnt/cidgoh-object-storage/database/reference_genomes/giardia/assemblage_E/GiardiaDB-68_GintestinalisAssemblageEP15_Genome.fasta.gz",
+  "input": "/scratch/mdprieto/bwa_align_stats/test/samplesheet.csv",
+  "outdir": "/scratch/mdprieto/results/bwa_align_full",
+  "ref_genome": "/mnt/cidgoh-object-storage/database/reference_genomes/giardia/assemblage_A/Giardia_GCF000002435_WB_genomic.fna",
   "genome_list_composite": [
     "/mnt/cidgoh-object-storage/database/reference_genomes/giardia/assemblage_A/Giardia_GCF000002435_WB_genomic.fna",
     "/mnt/cidgoh-object-storage/database/reference_genomes/giardia/assemblage_B/GiardiaDB-68_GintestinalisAssemblageBGS_B_Genome.fasta"

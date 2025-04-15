@@ -26,9 +26,22 @@ process CONCATENATE_MAPPING_STATS {
     def genome_a = reference_fastas[0].getSimpleName()
     def genome_b = reference_fastas[1].getSimpleName()
     """
-    echo -e ${args} "sample_id\ttotal_reads_mapped\t${genome_a}_mapped\t${genome_b}_mapped\t${genome_a}_percent\t${genome_b}_percent" > alignment_summary.tsv
+    # concatenate all results
+    echo -e ${args} "sample_id\ttotal_reads_mapped\t${genome_a}_mapped\t${genome_b}_mapped\t${genome_a}_percent\t${genome_b}_percent" > temp.tsv
+    cat *_mapping_stats.tsv >> temp.tsv
 
-    cat *_mapping_stats.tsv >> alignment_summary.tsv
+    # new column with name of genome where the majority of reads mapped
+    awk -v var_a="${genome_a}" \
+        -v var_b="${genome_b}" '
+        {
+        if (NR == 1) 
+            print $0,"likely_taxa";
+        else  if ($3>=$4) 
+            print $0,var_a;
+        else 
+            print $0,var_b 
+        }
+    ' temp.tsv > alignment_summary.tsv
     
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
