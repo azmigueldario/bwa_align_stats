@@ -78,7 +78,7 @@ workflow BAM_PILEUP_VCF {
     }   
 
     emit:
-    mpileup         = BCFTOOLS_MPILEUP.out.mpileup    // channel: [ val(meta), [*mpileup.gz] ]
+    mpileup         = BCFTOOLS_MPILEUP.out.mpileup      // channel: [ val(meta), [*mpileup.gz] ]
     vcf_bcftools    = ch_vcf_bcftools                   // channel: [ val(meta), [*vcf] ]
     vcf_freebayes   = ch_vcf_freebayes                  // channel: [ val(meta), [*vcf] ]
     vcf_gatk4       = ch_vcf_gatk4                      // channel: [ val(meta), [*vcf] ]
