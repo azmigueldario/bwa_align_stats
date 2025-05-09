@@ -35,11 +35,11 @@ process CONCATENATE_MAPPING_STATS {
         -v var_b="${genome_b}" '
         {
         if (NR == 1) 
-            print $0,"likely_taxa";
-        else  if ($3>=$4) 
-            print $0,var_a;
+            print \$0,"likely_taxa";
+        else  if (\$3>=\$4) 
+            print \$0,var_a;
         else 
-            print $0,var_b 
+            print \$0,var_b 
         }
     ' temp.tsv > alignment_summary.tsv
     
