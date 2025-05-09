@@ -13,9 +13,10 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { BWA_ALIGN_STATS  } from './workflows/bwa_align_stats'
+include { BWA_ALIGN_STATS         } from './workflows/bwa_align_stats'
 include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_bwa_align_stats_pipeline'
 include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_bwa_align_stats_pipeline'
+
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     NAMED WORKFLOWS FOR PIPELINE
@@ -25,10 +26,11 @@ include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_bwa_
 //
 // WORKFLOW: Run main analysis pipeline depending on type of input
 //
-workflow AZMIGUELDARIO_BWA_ALIGN_STATS {
+workflow MAIN {
 
     take:
-    samplesheet // channel: samplesheet read in from --input
+    ch_fastq_reads  // tuple [meta, [fastq1, fastq2] ] from '--input samplesheet.csv'
+    ch_refgenome    // tuple [meta, fasta] from '--ref_genome fasta'
 
     main:
 
@@ -36,8 +38,15 @@ workflow AZMIGUELDARIO_BWA_ALIGN_STATS {
     // WORKFLOW: Run pipeline
     //
     BWA_ALIGN_STATS (
-        samplesheet
-    )
+        ch_fastq_reads,
+        ch_refgenome,
+        params.ref_genome,
+        params.fastp_save_trimmed_fail,
+        params.fastp_save_merged,
+        params.genome_list_composite,
+        params.aligner,
+        params.sort_bam,
+        params.save_mpileup )
 }
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -47,7 +56,10 @@ workflow AZMIGUELDARIO_BWA_ALIGN_STATS {
 
 workflow {
 
+
+
     main:
+
     //
     // SUBWORKFLOW: Run initialisation tasks
     //
@@ -63,15 +75,16 @@ workflow {
     //
     // WORKFLOW: Run main workflow
     //
-    AZMIGUELDARIO_BWA_ALIGN_STATS (
-        PIPELINE_INITIALISATION.out.samplesheet
+    MAIN (
+        PIPELINE_INITIALISATION.out.fastq_reads,
+        PIPELINE_INITIALISATION.out.refgenome
     )
     //
     // SUBWORKFLOW: Run completion tasks
     //
     PIPELINE_COMPLETION (
         params.outdir,
-        params.monochrome_logs,
+        params.monochrome_logs
     )
 }
 

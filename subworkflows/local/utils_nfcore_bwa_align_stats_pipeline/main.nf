@@ -35,6 +35,24 @@ workflow PIPELINE_INITIALISATION {
 
     ch_versions = Channel.empty()
 
+    def pipeline_logo='''
+    \u001B[32m
+        _______   __       __   ______                        ______   __  __                     
+        /       \\ /  |  _  /  | /      \\                      /      \\ /  |/  |                    
+        $$$$$$$  |$$ | / \\ $$ |/$$$$$$  |                    /$$$$$$  |$$ |$$/   ______   _______  
+        $$ |__$$ |$$ |/$  \\$$ |$$ |__$$ |       ______       $$ |__$$ |$$ |/  | /      \\ /       \\ 
+        $$    $$< $$ /$$$  $$ |$$    $$ |      /      |      $$    $$ |$$ |$$ |/$$$$$$  |$$$$$$$  |
+        $$$$$$$  |$$ $$/$$ $$ |$$$$$$$$ |      $$$$$$/       $$$$$$$$ |$$ |$$ |$$ |  $$ |$$ |  $$ |
+        $$ |__$$ |$$$$/  $$$$ |$$ |  $$ |                    $$ |  $$ |$$ |$$ |$$ \\__$$ |$$ |  $$ |
+        $$    $$/ $$$/    $$$ |$$ |  $$ |                    $$ |  $$ |$$ |$$ |$$    $$ |$$ |  $$ |
+        $$$$$$$/  $$/      $$/ $$/   $$/                     $$/   $$/ $$/ $$/  $$$$$$$ |$$/   $$/ 
+                                                                               /  \\__$$ |          
+                                                                               $$    $$/           
+                                                                                $$$$$$/            
+    \u001B[0m
+    '''
+    log.info pipeline_logo
+
     //
     // Print version and exit if required and dump pipeline parameters to JSON file
     //
@@ -72,21 +90,32 @@ workflow PIPELINE_INITIALISATION {
                 if (!fastq_2) {
                     return [ meta.id, meta + [ single_end:true ], [ fastq_1 ] ]
                 } else {
-                    return [ meta.id, meta + [ single_end:false ], [ fastq_1, fastq_2 ] ]
-                }
+                    return [ meta.id, meta + [ single_end:false ], [ fastq_1, fastq_2 ]]        }
         }
         .groupTuple()
         .map { samplesheet ->
-            validateInputSamplesheet(samplesheet)
-        }
+            validateInputSamplesheet(samplesheet) }
         .map {
             meta, fastqs ->
-                return [ meta, fastqs.flatten() ]
-        }
+                return [ meta, fastqs.flatten() ]   }
         .set { ch_samplesheet }
 
+    //
+    // Create channel for reference genome
+    //
+
+    Channel
+        .fromPath(params.ref_genome, checkIfExists: true)
+        .map { 
+            fasta ->
+                def fmeta = [id: fasta.simpleName]
+                [fmeta, fasta]  }
+        .first()
+        .set{ ch_refgenome }
+
     emit:
-    samplesheet = ch_samplesheet
+    fastq_reads = ch_samplesheet                    // tuple [meta, [fastq1, fastq2] ]
+    refgenome   = ch_refgenome                      // tuple [meta, fasta ]
     versions    = ch_versions
 }
 
@@ -138,6 +167,7 @@ def validateInputSamplesheet(input) {
 
     return [ metas[0], fastqs ]
 }
+
 //
 // Generate methods description for MultiQC
 //

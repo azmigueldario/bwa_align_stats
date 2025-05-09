@@ -1,65 +1,156 @@
 {
-    "name": "azmigueldario/bwa_align_stats",
-    "homePage": "https://github.com/azmigueldario/bwa_align_stats",
-    "repos": {
-        "https://github.com/nf-core/modules.git": {
-            "modules": {
-                "nf-core": {
-                    "samtools/flagstat": {
-                        "branch": "master",
-                        "git_sha": "2d20463181b1c38981a02e90d3084b5f9fa8d540",
-                        "installed_by": [
-                            "bam_stats_samtools"
-                        ]
-                    },
-                    "samtools/idxstats": {
-                        "branch": "master",
-                        "git_sha": "2d20463181b1c38981a02e90d3084b5f9fa8d540",
-                        "installed_by": [
-                            "bam_stats_samtools"
-                        ]
-                    },
-                    "samtools/stats": {
-                        "branch": "master",
-                        "git_sha": "2d20463181b1c38981a02e90d3084b5f9fa8d540",
-                        "installed_by": [
-                            "bam_stats_samtools"
-                        ]
-                    }
-                }
-            },
-            "subworkflows": {
-                "nf-core": {
-                    "bam_stats_samtools": {
-                        "branch": "master",
-                        "git_sha": "763d4b5c05ffda3ac1ac969dc67f7458cfb2eb1d",
-                        "installed_by": [
-                            "subworkflows"
-                        ]
-                    },
-                    "utils_nextflow_pipeline": {
-                        "branch": "master",
-                        "git_sha": "c2b22d85f30a706a3073387f30380704fcae013b",
-                        "installed_by": [
-                            "subworkflows"
-                        ]
-                    },
-                    "utils_nfcore_pipeline": {
-                        "branch": "master",
-                        "git_sha": "51ae5406a030d4da1e49e4dab49756844fdd6c7a",
-                        "installed_by": [
-                            "subworkflows"
-                        ]
-                    },
-                    "utils_nfschema_plugin": {
-                        "branch": "master",
-                        "git_sha": "2fd2cd6d0e7b273747f32e465fdc6bcc3ae0814e",
-                        "installed_by": [
-                            "subworkflows"
-                        ]
-                    }
-                }
-            }
+  "name": "azmigueldario/bwa_align_stats",
+  "homePage": "https://github.com/azmigueldario/bwa_align_stats",
+  "repos": {
+    "https://github.com/nf-core/modules.git": {
+      "modules": {
+        "nf-core": {
+          "bcftools/mpileup": {
+            "branch": "master",
+            "git_sha": "c9c3ef86c1892413b3c86fb38c4e39fd7288512f",
+            "installed_by": ["modules"]
+          },
+          "bcftools/sort": {
+            "branch": "master",
+            "git_sha": "c9c3ef86c1892413b3c86fb38c4e39fd7288512f",
+            "installed_by": ["modules"]
+          },
+          "bcftools/stats": {
+            "branch": "master",
+            "git_sha": "c9c3ef86c1892413b3c86fb38c4e39fd7288512f",
+            "installed_by": ["modules"]
+          },
+          "bowtie2/align": {
+            "branch": "master",
+            "git_sha": "8357bae9e01116d22101b4ed24eb56e1d2811195",
+            "installed_by": ["fastq_align_dna"]
+          },
+          "bwa/mem": {
+            "branch": "master",
+            "git_sha": "a29f18660f5e3748d44d6f716241e70c942c065d",
+            "installed_by": ["fastq_align_dna"]
+          },
+          "bwamem2/index": {
+            "branch": "master",
+            "git_sha": "a29f18660f5e3748d44d6f716241e70c942c065d",
+            "installed_by": ["modules"]
+          },
+          "bwamem2/mem": {
+            "branch": "master",
+            "git_sha": "a29f18660f5e3748d44d6f716241e70c942c065d",
+            "installed_by": ["fastq_align_dna"]
+          },
+          "dragmap/align": {
+            "branch": "master",
+            "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+            "installed_by": ["fastq_align_dna"]
+          },
+          "fastp": {
+            "branch": "master",
+            "git_sha": "d082103d7976a2804f21225446cc110cbd822f4c",
+            "installed_by": ["modules"]
+          },
+          "freebayes": {
+            "branch": "master",
+            "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+            "installed_by": ["modules"]
+          },
+          "gatk4/createsequencedictionary": {
+            "branch": "master",
+            "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+            "installed_by": ["modules"]
+          },
+          "gatk4/haplotypecaller": {
+            "branch": "master",
+            "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+            "installed_by": ["modules"]
+          },
+          "gatk4/variantfiltration": {
+            "branch": "master",
+            "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+            "installed_by": ["modules"]
+          },
+          "gatk4spark/markduplicates": {
+            "branch": "master",
+            "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+            "installed_by": ["modules"]
+          },
+          "goleft/indexcov": {
+            "branch": "master",
+            "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+            "installed_by": ["modules"]
+          },
+          "mosdepth": {
+            "branch": "master",
+            "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+            "installed_by": ["modules"]
+          },
+          "samtools/coverage": {
+            "branch": "master",
+            "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+            "installed_by": ["modules"]
+          },
+          "samtools/faidx": {
+            "branch": "master",
+            "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+            "installed_by": ["modules"]
+          },
+          "samtools/index": {
+            "branch": "master",
+            "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+            "installed_by": ["modules"]
+          },
+          "samtools/mpileup": {
+            "branch": "master",
+            "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+            "installed_by": ["modules"]
+          },
+          "samtools/stats": {
+            "branch": "master",
+            "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+            "installed_by": ["modules"]
+          },
+          "snapaligner/align": {
+            "branch": "master",
+            "git_sha": "77bdd7e1047d2abe21ae8d89acc295ea553ecbae",
+            "installed_by": ["fastq_align_dna"]
+          },
+          "unzip": {
+            "branch": "master",
+            "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+            "installed_by": ["modules"]
+          },
+          "vcftools": {
+            "branch": "master",
+            "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+            "installed_by": ["modules"]
+          }
         }
+      },
+      "subworkflows": {
+        "nf-core": {
+          "fastq_align_dna": {
+            "branch": "master",
+            "git_sha": "a29f18660f5e3748d44d6f716241e70c942c065d",
+            "installed_by": ["subworkflows"]
+          },
+          "utils_nextflow_pipeline": {
+            "branch": "master",
+            "git_sha": "c2b22d85f30a706a3073387f30380704fcae013b",
+            "installed_by": ["subworkflows"]
+          },
+          "utils_nfcore_pipeline": {
+            "branch": "master",
+            "git_sha": "51ae5406a030d4da1e49e4dab49756844fdd6c7a",
+            "installed_by": ["subworkflows"]
+          },
+          "utils_nfschema_plugin": {
+            "branch": "master",
+            "git_sha": "2fd2cd6d0e7b273747f32e465fdc6bcc3ae0814e",
+            "installed_by": ["subworkflows"]
+          }
+        }
+      }
     }
+  }
 }
